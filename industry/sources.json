@@ -1,0 +1,569 @@
+{
+  "$comment": "示范信源：首次启动时导入（scripts/seed.ts），已存在的不会被覆盖。之后在后台“信源”里新建、修改和暂停。字段说明见 docs/customize.md。",
+  "sources": [
+    {
+      "id": "open-github-trending",
+      "name": "GitHub Trending 日榜",
+      "kind": "web_list",
+      "config": {
+        "url": "https://github.com/trending?since=daily",
+        "itemSelector": "article.Box-row",
+        "linkSelector": "h2 a",
+        "titleSelector": "h2 a",
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T1",
+      "owner_entity_id": "github",
+      "participation_mode": "editorial",
+      "interval_minutes": 120,
+      "tags": [
+        "仓库",
+        "趋势",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-github-new-repos",
+      "name": "GitHub 新仓库（月内新建高星）",
+      "kind": "json_list",
+      "config": {
+        "url": "https://api.github.com/search/repositories?q=created:%3E2025-06-01+stars:%3E200&sort=stars&order=desc&per_page=20",
+        "headers": {
+          "Accept": "application/vnd.github+json"
+        },
+        "itemsPath": "items",
+        "titlePaths": [
+          "full_name"
+        ],
+        "summaryPaths": [
+          "description"
+        ],
+        "publishedAtPath": "created_at",
+        "externalIdPath": "full_name",
+        "urlTemplate": "https://github.com/{full_name}",
+        "minNumeric": {
+          "path": "stargazers_count",
+          "min": 200
+        },
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T1",
+      "owner_entity_id": "github",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "仓库",
+        "新项目",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-github-rising",
+      "name": "GitHub 快速涨星",
+      "kind": "json_list",
+      "config": {
+        "url": "https://api.github.com/search/repositories?q=pushed:%3E2026-09-01+stars:%3E5000&sort=stars&order=desc&per_page=20",
+        "headers": {
+          "Accept": "application/vnd.github+json"
+        },
+        "itemsPath": "items",
+        "titlePaths": [
+          "full_name"
+        ],
+        "summaryPaths": [
+          "description"
+        ],
+        "publishedAtPath": "pushed_at",
+        "externalIdPath": "full_name",
+        "urlTemplate": "https://github.com/{full_name}",
+        "minNumeric": {
+          "path": "stargazers_count",
+          "min": 5000
+        },
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T1",
+      "owner_entity_id": "github",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "仓库",
+        "涨星",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-release-bun",
+      "name": "Bun 版本发布",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://github.com/oven-sh/bun/releases.atom",
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T1",
+      "owner_entity_id": "github",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "版本发布",
+        "运行时",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-release-deno",
+      "name": "Deno 版本发布",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://github.com/denoland/deno/releases.atom",
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T1",
+      "owner_entity_id": "github",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "版本发布",
+        "运行时",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-release-uv",
+      "name": "uv 版本发布",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://github.com/astral-sh/uv/releases.atom",
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T1",
+      "owner_entity_id": "github",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "版本发布",
+        "工具链",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-release-zed",
+      "name": "Zed 版本发布",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://github.com/zed-industries/zed/releases.atom",
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T1",
+      "owner_entity_id": "github",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "版本发布",
+        "编辑器",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-release-tailwindcss",
+      "name": "Tailwind CSS 版本发布",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://github.com/tailwindlabs/tailwindcss/releases.atom",
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T1",
+      "owner_entity_id": "github",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "版本发布",
+        "前端",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-hn-frontpage",
+      "name": "Hacker News 热榜",
+      "kind": "json_list",
+      "config": {
+        "url": "https://hn.algolia.com/api/v1/search?tags=front_page&hitsPerPage=50",
+        "itemsPath": "hits",
+        "titlePaths": [
+          "title"
+        ],
+        "publishedAtPath": "created_at",
+        "externalIdPath": "objectID",
+        "urlTemplate": "{raw:url}",
+        "urlTemplateFallback": "https://news.ycombinator.com/item?id={objectID}",
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T2",
+      "owner_entity_id": "hacker-news",
+      "participation_mode": "editorial",
+      "interval_minutes": 60,
+      "tags": [
+        "社区",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-lobsters",
+      "name": "Lobsters 热榜",
+      "kind": "json_list",
+      "config": {
+        "url": "https://lobste.rs/hottest.json",
+        "titlePaths": [
+          "title"
+        ],
+        "summaryPaths": [
+          "tags"
+        ],
+        "publishedAtPath": "created_at",
+        "externalIdPath": "short_id",
+        "urlTemplate": "{raw:url}",
+        "urlTemplateFallback": "https://lobste.rs/s/{short_id}",
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T2",
+      "owner_entity_id": "lobsters",
+      "participation_mode": "editorial",
+      "interval_minutes": 60,
+      "tags": [
+        "社区",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-reddit-programming",
+      "name": "Reddit r/programming",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.reddit.com/r/programming/.rss",
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T2",
+      "owner_entity_id": "reddit",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "社区",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-reddit-opensource",
+      "name": "Reddit r/opensource",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.reddit.com/r/opensource/.rss",
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T2",
+      "owner_entity_id": "reddit",
+      "participation_mode": "editorial",
+      "interval_minutes": 210,
+      "tags": [
+        "社区",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-reddit-selfhosted",
+      "name": "Reddit r/selfhosted",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://www.reddit.com/r/selfhosted/.rss",
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T2",
+      "owner_entity_id": "reddit",
+      "participation_mode": "editorial",
+      "interval_minutes": 240,
+      "tags": [
+        "社区",
+        "自托管",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-hf-models",
+      "name": "Hugging Face 模型趋势",
+      "kind": "json_list",
+      "config": {
+        "url": "https://huggingface.co/api/models?sort=trendingScore&direction=-1&limit=20",
+        "titlePaths": [
+          "id"
+        ],
+        "summaryPaths": [
+          "pipeline_tag"
+        ],
+        "publishedAtPath": "createdAt",
+        "externalIdPath": "id",
+        "urlTemplate": "https://huggingface.co/{id}",
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T2",
+      "owner_entity_id": "hugging-face",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "模型",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-hf-datasets",
+      "name": "Hugging Face 数据集趋势",
+      "kind": "json_list",
+      "config": {
+        "url": "https://huggingface.co/api/datasets?sort=trendingScore&direction=-1&limit=20",
+        "titlePaths": [
+          "id"
+        ],
+        "summaryPaths": [
+          "description"
+        ],
+        "publishedAtPath": "createdAt",
+        "externalIdPath": "id",
+        "urlTemplate": "https://huggingface.co/datasets/{id}",
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T2",
+      "owner_entity_id": "hugging-face",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "数据集",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-trending-mirror",
+      "name": "GitHub Trending 镜像（降级备份）",
+      "kind": "rss",
+      "config": {
+        "feedUrl": "https://mshibanami.github.io/GitHubTrendingRSS/daily/all.xml",
+        "ingestNoiseFilter": {
+          "dropMarkersTitleOnly": [
+            "awesome",
+            "面试",
+            "interview",
+            "leetcode",
+            "刷题",
+            "dotfiles",
+            "中文翻译",
+            "翻译版"
+          ]
+        }
+      },
+      "tier": "T2",
+      "owner_entity_id": "github",
+      "participation_mode": "editorial",
+      "interval_minutes": 180,
+      "tags": [
+        "仓库",
+        "趋势",
+        "备份",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    }
+  ]
+}

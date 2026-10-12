@@ -1,0 +1,19 @@
+node_modules
+apps/web/node_modules
+apps/web/build
+apps/web/.react-router
+.data
+.env
+.env.*
+!.env.example
+.git
+.github
+*.log
+
+# 本地运行时数据与临时文件
+data/
+.data/
+_*
+*.log
+*.err
+*.pid

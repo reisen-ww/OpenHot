@@ -1,0 +1,13 @@
+OpenHot
+Copyright (c) 2026 reisen-ww.
+
+本项目基于 AIHOT 框架（https://github.com/KKKKhazix/AIHOT）构建。
+AIHOT 框架 Copyright (c) 2026 数字生命卡兹克，以 MIT 许可证授权（见 LICENSE）。
+
+The name "AIHOT" and the AIHOT logo are not licensed under the MIT License.
+This repository does not use them.
+
+- assets/og-fonts/: Noto Sans SC, SIL Open Font License 1.1 (assets/og-fonts/LICENSE).
+
+The demo sources in industry/sources.json are public feeds of their publishers. Their content belongs
+to them; by default the site shows only a summary and a link to the original.

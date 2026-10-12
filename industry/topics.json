@@ -1,0 +1,189 @@
+{
+  "groups": [
+    {
+      "key": "org",
+      "name": "组织与基金会",
+      "blurb": "按机构追踪平台、基金会与项目背后的组织"
+    },
+    {
+      "key": "stack",
+      "name": "技术栈",
+      "blurb": "按方向深挖：Rust、Kubernetes、数据库、自托管、供应链安全……"
+    },
+    {
+      "key": "genre",
+      "name": "内容形态",
+      "blurb": "按内容类型浏览：新项目首发、重大版本、安全修复、项目归档……"
+    }
+  ],
+  "topics": [
+    {
+      "slug": "github",
+      "name": "GitHub",
+      "group": "org",
+      "entityId": "github",
+      "definition": "GitHub 平台的动态：Trending 与搜索里冒出来的新仓库、Actions 与 Copilot 等产品线更新、平台政策与可用性事件，以及围绕它的社区讨论。"
+    },
+    {
+      "slug": "gitlab",
+      "name": "GitLab",
+      "group": "org",
+      "entityId": "gitlab",
+      "definition": "GitLab 的持续追踪：平台版本发布、CI/CD 能力变化、自托管与 SaaS 两条线的差异，以及许可证与商业模式调整。"
+    },
+    {
+      "slug": "hugging-face",
+      "name": "Hugging Face",
+      "group": "org",
+      "entityId": "hugging-face",
+      "definition": "Hugging Face 上以仓库形态发布的开放模型与数据集：新权重上线、数据集更新、模型卡与许可证变化，以及 Transformers 等配套工具链的发布。"
+    },
+    {
+      "slug": "linux",
+      "name": "Linux",
+      "group": "org",
+      "entityId": "kernel-org",
+      "definition": "Linux 内核与发行版生态：内核版本与合并窗口的重要改动、驱动与文件系统进展、长期支持分支的维护，以及主要发行版的发布节奏。"
+    },
+    {
+      "slug": "kubernetes",
+      "name": "Kubernetes",
+      "group": "org",
+      "entityId": "kubernetes",
+      "definition": "Kubernetes 及云原生核心组件的进展：版本发布与弃用项、调度与网络存储子系统改动、Helm 与 Operator 生态，以及 CNCF 项目的毕业与归档。"
+    },
+    {
+      "slug": "postgresql",
+      "name": "PostgreSQL",
+      "group": "org",
+      "entityId": "postgresql",
+      "definition": "PostgreSQL 的持续追踪：大版本发布与新特性、查询规划器与索引改进、扩展生态（含向量检索），以及社区治理与版本支持策略。"
+    },
+    {
+      "slug": "deno",
+      "name": "Deno",
+      "group": "org",
+      "entityId": "deno",
+      "definition": "Deno 运行时的动态：运行时与标准库版本发布、权限模型与兼容性变化、JSR 包注册表进展，以及 Deno Deploy 等托管能力。"
+    },
+    {
+      "slug": "bun",
+      "name": "Bun",
+      "group": "org",
+      "entityId": "bun",
+      "definition": "Bun 运行时的进展：运行时与包管理器版本发布、性能基准、与 Node.js 的兼容程度，以及内置测试器与打包器的能力变化。"
+    },
+    {
+      "slug": "rust",
+      "name": "Rust",
+      "group": "stack",
+      "tags": ["Rust"],
+      "definition": "Rust 语言与生态：语言特性与版本发布、编译器与借用检查器改进、Cargo 与 crates.io 的包管理变化，以及热门库与工具链的进展。"
+    },
+    {
+      "slug": "new-language",
+      "name": "新兴语言与运行时",
+      "group": "stack",
+      "tags": ["Zig", "Go"],
+      "definition": "新兴与快速演进的编程语言：Zig、Go 等语言的版本发布、编译器与工具链改进、标准库与包管理变化，以及它们被新项目采用的情况。"
+    },
+    {
+      "slug": "containers",
+      "name": "容器与编排",
+      "group": "stack",
+      "tags": ["Docker", "Kubernetes"],
+      "definition": "容器技术的全链条：镜像格式与运行时、构建与分层优化、编排与调度、服务网格与网关，以及自建集群与家庭实验室的部署方案。"
+    },
+    {
+      "slug": "database",
+      "name": "数据库与存储",
+      "group": "stack",
+      "tags": ["PostgreSQL", "SQLite"],
+      "definition": "数据库引擎与存储方案：关系型与嵌入式数据库的发布、查询引擎与索引结构改进、缓存与向量存储，以及轻量级单文件数据库的适用场景。"
+    },
+    {
+      "slug": "frontend",
+      "name": "前端框架与构建",
+      "group": "stack",
+      "tags": ["TypeScript", "WebAssembly"],
+      "definition": "前端框架、构建工具与语言生态：框架大版本与渲染模型变化、打包器与编译器的性能改进，以及 WebAssembly 在浏览器内外的应用进展。"
+    },
+    {
+      "slug": "self-hosting",
+      "name": "自托管与私有部署",
+      "group": "stack",
+      "tags": ["自托管"],
+      "definition": "把服务跑在自己的机器上：自托管应用的发布与替代方案、单机与家庭实验室部署、数据迁移与备份做法，以及从商业服务转向自托管的动机。"
+    },
+    {
+      "slug": "supply-chain-security",
+      "name": "供应链与依赖安全",
+      "group": "stack",
+      "tags": ["供应链安全", "安全漏洞"],
+      "definition": "开源供应链的风险与治理：依赖投毒与抢注事件、构建产物与签名验证、SBOM 与来源证明工具，以及高危漏洞的披露与修复版本。"
+    },
+    {
+      "slug": "encryption-privacy",
+      "name": "加密与隐私工具",
+      "group": "stack",
+      "tags": ["端到端加密"],
+      "definition": "加密与隐私保护工具：端到端加密协议的实现与审计、匿名通信与去中心化网络、密钥管理与证书自动化，以及数据保护类项目的进展。"
+    },
+    {
+      "slug": "llm-tooling",
+      "name": "大模型工具与推理",
+      "group": "stack",
+      "tags": ["LLM", "Agent", "RAG"],
+      "definition": "把大模型跑起来和用起来的开源工具：本地推理引擎与量化方案、智能体框架与工具调用协议、检索增强与向量检索组件，以及模型部署的工程实践。"
+    },
+    {
+      "slug": "new-project",
+      "name": "新项目首发",
+      "group": "genre",
+      "tags": ["新项目"],
+      "definition": "刚刚出现在开源社区的项目：首次公开发布与仓库上线、作者自述的动机与设计取舍、早期反馈与快速迭代，以及「居然有人做了这个」这一类新奇作品。"
+    },
+    {
+      "slug": "major-release",
+      "name": "重大版本发布",
+      "group": "genre",
+      "tags": ["重大更新", "版本发布"],
+      "definition": "项目的大版本节点：主版本号跃迁与破坏性变更、迁移指南与兼容层、架构重写，以及随之而来的生态适配进展。"
+    },
+    {
+      "slug": "performance",
+      "name": "性能与基准",
+      "group": "genre",
+      "tags": ["性能提升", "架构重构"],
+      "definition": "速度与资源占用的改进：基准测试与跑分对比、内存与启动时间优化、编译器与运行时提速，以及重构带来的可维护性变化。"
+    },
+    {
+      "slug": "security-fix",
+      "name": "安全修复与漏洞",
+      "group": "genre",
+      "tags": ["安全漏洞"],
+      "definition": "具体漏洞的披露与修复：CVE 编号与影响范围、修复版本与缓解措施、被利用情况的证据，以及安全团队与项目维护者的响应过程。"
+    },
+    {
+      "slug": "license-change",
+      "name": "许可证与治理",
+      "group": "genre",
+      "tags": ["许可证变更", "社区争议"],
+      "definition": "开源项目的规则变化：许可证更换与闭源转向、商标与治理结构调整、商业公司与社区的分歧，以及由此引发的分叉与抵制。"
+    },
+    {
+      "slug": "project-archive",
+      "name": "项目归档与停维护",
+      "group": "genre",
+      "tags": ["项目归档"],
+      "definition": "项目生命周期的终点与交接：宣布停止维护或归档、寻找接手维护者、推荐替代方案，以及依赖它的下游项目如何应对。"
+    },
+    {
+      "slug": "ecosystem-funding",
+      "name": "融资与商业",
+      "group": "genre",
+      "tags": ["融资与商业", "人事变动"],
+      "definition": "开源项目背后的钱与人：融资与收购、商业化路线与付费版本、基金会资助与赞助模式，以及核心维护者的人事变动。"
+    }
+  ]
+}
