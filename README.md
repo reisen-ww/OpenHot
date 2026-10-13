@@ -160,6 +160,24 @@ docker compose up -d --build
 
 发现 Bug 或有明确的功能建议，可以 [提交 Issue](https://github.com/reisen-ww/OpenHot/issues/new/choose)。准备改代码前，先看 [贡献说明](CONTRIBUTING.md)；安全漏洞请走 [私密报告入口](SECURITY.md)。
 
+## 已知问题
+
+`npm test` 有 **6 个后端测试失败**，这是**框架自带的缺陷，不是本仓库引入的**：
+
+| 测试文件 | 失败用例 |
+|---|---|
+| `tests/content-publication.test.ts` | mentions cannot choose a timeline origin… · an editor moves a report into the fact it repeats… |
+| `tests/reading.test.ts` | a folded card's other sources… |
+| `tests/seats.test.ts` | one fact holds one selected seat on v1, RSS and the sync ledger |
+| `tests/timeline-day-counts.test.ts` | real grouped timeline pagination walks every group once across midnight |
+| `tests/reading-group-performance.test.ts` | selected news keeps each fact at its first appearance and hydrates only its representatives |
+
+**为什么确认是框架自带的**：这 6 个失败在一个**未做任何改动**的兄弟站上逐一复现，报错文本逐字一致；其中 3 个测试文件在两个仓库之间字节级完全相同，另 2 个只有行业名词替换、断言逻辑未动。
+
+它们指向 `packages/backend/src/publication/` 读取层的若干历史缺陷，与本站的行业定制无关。
+
+因此 GitHub Actions 会在 **Backend tests** 一步显示失败。同一次运行中，**环境、在线迁移安全、备份工具、类型检查、web 构建、前端测试全部通过**。
+
 ## 最后
 
 AIHOT 曾经只是我无数个深夜里，一个很小、很小的念头。
