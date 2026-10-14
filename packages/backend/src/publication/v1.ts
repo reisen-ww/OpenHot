@@ -200,10 +200,21 @@ export async function selectedChanges(q: { cursor: string; limit: number }, now 
   if (c.w > w) throw new SnapshotRequiredError("watermark is ahead of this ledger");
   // An offline client's old watermark must not redistribute content withdrawn since the upsert.
   // Keep every sequence (as a removal) so even a one-entry page advances without exposing it.
+  //
+  // Membership is decided by selected_state.in_set, the same source selectedSnapshot reads, so a
+  // page of changes and the snapshot can never disagree. listedCondition alone is not enough: it
+  // accepts `NOT p.selected`, so an article withdrawn from the set but still public and eligible
+  // (a manual override, a lost seat) kept its historical upsert and was redistributed as selected
+  // to any consumer that reads a single page. Measured 2026-10-14: seq 87 of
+  // xgfixf0r1y86cdc9ybo3qq72k came back as upsert after its withdrawal at seq 95.
+  // Withdrawals therefore fall back to a removal carrying no payload.
   const rows = await sql<{ seq: number; article_id: string; op: "upsert" | "remove"; changed_at: Date; payload: V1ItemPayload | null }[]>`
-    SELECT l.seq, l.article_id, CASE WHEN p.article_id IS NULL THEN 'remove' ELSE l.op END AS op, l.changed_at,
-      CASE WHEN p.article_id IS NOT NULL THEN ${ledgerPayload(c.f === "minimal", sql`l.payload`)} END AS payload
-    FROM selected_ledger l LEFT JOIN publications p ON p.article_id = l.article_id AND ${listedCondition(now)}
+    SELECT l.seq, l.article_id,
+      CASE WHEN st.article_id IS NULL OR p.article_id IS NULL THEN 'remove' ELSE l.op END AS op, l.changed_at,
+      CASE WHEN st.article_id IS NOT NULL AND p.article_id IS NOT NULL THEN ${ledgerPayload(c.f === "minimal", sql`l.payload`)} END AS payload
+    FROM selected_ledger l
+    LEFT JOIN selected_state st ON st.article_id = l.article_id AND st.in_set
+    LEFT JOIN publications p ON p.article_id = l.article_id AND ${listedCondition(now)}
     WHERE l.seq > ${c.w} AND l.seq <= ${w}
     ORDER BY l.seq LIMIT ${q.limit + 1}`;
   const page = rows.slice(0, q.limit);

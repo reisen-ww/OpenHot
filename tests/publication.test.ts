@@ -368,6 +368,38 @@ test('historical sync never redistributes withdrawn content, even on a one-entry
   }
 });
 
+// A manual withdrawal (editorial override selected=false) is not a visibility change: the item stays
+// public and eligible, so listedCondition alone still matches it. Membership must come from
+// selected_state, or an offline client resuming before the withdrawal receives the old upsert as
+// selected content. Measured in production 2026-10-14 before this test existed.
+test('an overridden item is withdrawn from the sync, not redistributed to an old watermark', async () => {
+  const start = JSON.parse((await get('/api/v1/selected/snapshot?fields=default')).body).cursor;
+  const id = await article();
+  await publishArticle(id, released());
+  await overrideFields(id, { fields: { selected: false }, reason: 'test manual withdrawal', version: 0 }, 'test');
+
+  const page = JSON.parse((await get(`/api/v1/selected/changes?limit=1&cursor=${encodeURIComponent(start)}`)).body);
+  assert.equal(page.changes[0].op, 'remove', 'the old upsert must not be re-sent as selected');
+  assert.equal(page.changes[0].id, id);
+  assert.equal(page.changes[0].item, undefined, 'a withdrawn item carries no payload');
+
+  // The public set and the sync agree about it.
+  assert.ok(!(await get('/api/v1/selected/snapshot?fields=default&limit=1000')).body.includes(id));
+
+  // And the rest of the page still converges: applying every change lands on the same set the
+  // snapshot reports, so a full consumer is not left holding a phantom selection.
+  const net = new Map<string, string>();
+  let cursor = start as string;
+  for (let i = 0; i < 20; i++) {
+    const chunk = JSON.parse((await get(`/api/v1/selected/changes?cursor=${encodeURIComponent(cursor)}&limit=100`)).body);
+    for (const c of chunk.changes) net.set(c.id ?? c.item?.id, c.op);
+    if (!chunk.hasMore) break;
+    cursor = chunk.cursor;
+  }
+  assert.equal(net.get(id), 'remove', 'replaying every change must clear the selection');
+  assert.ok(![...net.entries()].some(([, op]) => op === 'upsert'), 'no phantom selection survives');
+});
+
 test("v1 story retains website content and fallback ordering without the website-only heat reads", async () => {
   const first = await article();
   const second = await article();
