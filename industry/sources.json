@@ -646,11 +646,11 @@
       "syndicate_fulltext": false
     },
     {
-      "id": "open-hf-new-meta",
-      "name": "Hugging Face 新模型 · Meta",
+      "id": "open-hf-new-tencent",
+      "name": "Hugging Face 新模型 · 腾讯",
       "kind": "json_list",
       "config": {
-        "url": "https://huggingface.co/api/models?author=meta-llama&sort=createdAt&direction=-1&limit=10",
+        "url": "https://huggingface.co/api/models?author=tencent&sort=createdAt&direction=-1&limit=10",
         "titlePaths": [
           "id"
         ],
