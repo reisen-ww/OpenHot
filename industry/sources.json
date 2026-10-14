@@ -534,6 +534,174 @@
       "syndicate_fulltext": false
     },
     {
+      "id": "open-hf-new-qwen",
+      "name": "Hugging Face 新模型 · Qwen",
+      "kind": "json_list",
+      "config": {
+        "url": "https://huggingface.co/api/models?author=Qwen&sort=createdAt&direction=-1&limit=10",
+        "titlePaths": [
+          "id"
+        ],
+        "summaryPaths": [
+          "pipeline_tag"
+        ],
+        "publishedAtPath": "createdAt",
+        "externalIdPath": "id",
+        "urlTemplate": "https://huggingface.co/{id}"
+      },
+      "tier": "T2",
+      "owner_entity_id": "hugging-face",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "模型",
+        "新发布",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-hf-new-deepseek",
+      "name": "Hugging Face 新模型 · DeepSeek",
+      "kind": "json_list",
+      "config": {
+        "url": "https://huggingface.co/api/models?author=deepseek-ai&sort=createdAt&direction=-1&limit=10",
+        "titlePaths": [
+          "id"
+        ],
+        "summaryPaths": [
+          "pipeline_tag"
+        ],
+        "publishedAtPath": "createdAt",
+        "externalIdPath": "id",
+        "urlTemplate": "https://huggingface.co/{id}"
+      },
+      "tier": "T2",
+      "owner_entity_id": "hugging-face",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "模型",
+        "新发布",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-hf-new-google",
+      "name": "Hugging Face 新模型 · Google",
+      "kind": "json_list",
+      "config": {
+        "url": "https://huggingface.co/api/models?author=google&sort=createdAt&direction=-1&limit=10",
+        "titlePaths": [
+          "id"
+        ],
+        "summaryPaths": [
+          "pipeline_tag"
+        ],
+        "publishedAtPath": "createdAt",
+        "externalIdPath": "id",
+        "urlTemplate": "https://huggingface.co/{id}"
+      },
+      "tier": "T2",
+      "owner_entity_id": "hugging-face",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "模型",
+        "新发布",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-hf-new-microsoft",
+      "name": "Hugging Face 新模型 · Microsoft",
+      "kind": "json_list",
+      "config": {
+        "url": "https://huggingface.co/api/models?author=microsoft&sort=createdAt&direction=-1&limit=10",
+        "titlePaths": [
+          "id"
+        ],
+        "summaryPaths": [
+          "pipeline_tag"
+        ],
+        "publishedAtPath": "createdAt",
+        "externalIdPath": "id",
+        "urlTemplate": "https://huggingface.co/{id}"
+      },
+      "tier": "T2",
+      "owner_entity_id": "hugging-face",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "模型",
+        "新发布",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-hf-new-meta",
+      "name": "Hugging Face 新模型 · Meta",
+      "kind": "json_list",
+      "config": {
+        "url": "https://huggingface.co/api/models?author=meta-llama&sort=createdAt&direction=-1&limit=10",
+        "titlePaths": [
+          "id"
+        ],
+        "summaryPaths": [
+          "pipeline_tag"
+        ],
+        "publishedAtPath": "createdAt",
+        "externalIdPath": "id",
+        "urlTemplate": "https://huggingface.co/{id}"
+      },
+      "tier": "T2",
+      "owner_entity_id": "hugging-face",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "模型",
+        "新发布",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
+      "id": "open-hf-new-mistral",
+      "name": "Hugging Face 新模型 · Mistral",
+      "kind": "json_list",
+      "config": {
+        "url": "https://huggingface.co/api/models?author=mistralai&sort=createdAt&direction=-1&limit=10",
+        "titlePaths": [
+          "id"
+        ],
+        "summaryPaths": [
+          "pipeline_tag"
+        ],
+        "publishedAtPath": "createdAt",
+        "externalIdPath": "id",
+        "urlTemplate": "https://huggingface.co/{id}"
+      },
+      "tier": "T2",
+      "owner_entity_id": "hugging-face",
+      "participation_mode": "editorial",
+      "interval_minutes": 360,
+      "tags": [
+        "模型",
+        "新发布",
+        "英文"
+      ],
+      "site_fulltext": false,
+      "syndicate_fulltext": false
+    },
+    {
       "id": "open-trending-mirror",
       "name": "GitHub Trending 镜像（降级备份）",
       "kind": "rss",
