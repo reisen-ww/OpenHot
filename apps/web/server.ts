@@ -2,6 +2,7 @@
 // proxied to the api process, so one port serves the whole site; a reverse proxy in front may also send
 // them to the api directly.
 import { createReadStream } from "node:fs";
+import { createGzip } from "node:zlib";
 import { stat } from "node:fs/promises";
 import { createServer } from "node:http";
 import path from "node:path";
@@ -43,8 +44,27 @@ const ssr = createRequestListener({ build, mode: "production" });
 
 class BadRequest extends Error {}
 
+/** Text formats where gzip pays; already-compressed media (png, webp, woff2, ico) does not. */
+const COMPRESSIBLE = new Set([".js", ".css", ".svg", ".json", ".txt", ".map", ".xml"]);
+/** Under this size the gzip header and the CPU cost outweigh the few bytes saved. */
+const COMPRESS_MIN_BYTES = 1024;
+
+/**
+ * Only an explicit `gzip` with a non-zero q counts. A bare `*` is not treated as gzip: it would
+ * let a client that never asked for gzip receive an encoding it cannot decode.
+ */
+function acceptsGzip(header: string | undefined): boolean {
+  for (const part of String(header ?? "").split(",")) {
+    const [token, ...params] = part.trim().split(";");
+    if (token.trim().toLowerCase() !== "gzip") continue;
+    const q = params.map((p) => p.trim()).find((p) => /^q=/i.test(p));
+    return !q || Number(q.slice(2)) > 0;
+  }
+  return false;
+}
+
 /** Hashed build assets are immutable; anything else from the client build gets a short cache. */
-async function serveStatic(pathname: string, res: import("node:http").ServerResponse): Promise<boolean> {
+async function serveStatic(pathname: string, req: import("node:http").IncomingMessage, res: import("node:http").ServerResponse): Promise<boolean> {
   if (pathname.includes("..") || pathname.endsWith("/")) return false;
   let decoded: string;
   try {
@@ -56,14 +76,29 @@ async function serveStatic(pathname: string, res: import("node:http").ServerResp
   if (!file.startsWith(CLIENT_DIR)) return false;
   const info = await stat(file).catch(() => null);
   if (!info?.isFile()) return false;
+  const ext = path.extname(file);
   const immutable = pathname.startsWith("/assets/");
-  res.writeHead(200, {
-    "Content-Type": TYPES[path.extname(file)] ?? "application/octet-stream",
-    "Content-Length": info.size,
+  const gzip = COMPRESSIBLE.has(ext) && info.size >= COMPRESS_MIN_BYTES && acceptsGzip(req.headers["accept-encoding"]);
+  const headers: import("node:http").OutgoingHttpHeaders = {
+    "Content-Type": TYPES[ext] ?? "application/octet-stream",
+    // The body now depends on the request header, so caches must key on it.
+    "Vary": "Accept-Encoding",
     "Cache-Control": immutable ? "public, max-age=31536000, immutable" : "public, max-age=3600",
     "X-Content-Type-Options": "nosniff",
-  });
-  createReadStream(file).pipe(res);
+  };
+  // A compressed body has no length known up front, so it streams chunked instead.
+  if (gzip) headers["Content-Encoding"] = "gzip";
+  else headers["Content-Length"] = info.size;
+  res.writeHead(200, headers);
+  const source = createReadStream(file);
+  source.on("error", () => res.destroy());
+  if (gzip) {
+    const zipper = createGzip();
+    zipper.on("error", () => res.destroy());
+    source.pipe(zipper).pipe(res);
+  } else {
+    source.pipe(res);
+  }
   return true;
 }
 
@@ -151,7 +186,7 @@ async function handle(req: import("node:http").IncomingMessage, res: import("nod
     return proxyToApi(req, res, { "x-forwarded-for": client, "x-real-ip": client });
   }
 
-  if ((req.method === "GET" || req.method === "HEAD") && pathname.includes(".") && (await serveStatic(pathname, res))) return;
+  if ((req.method === "GET" || req.method === "HEAD") && pathname.includes(".") && (await serveStatic(pathname, req, res))) return;
   pageResponse(req, res);
   return ssr(req, res);
 }
