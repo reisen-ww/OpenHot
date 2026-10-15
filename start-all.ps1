@@ -32,6 +32,10 @@ function Test-Port([int]$Port) {
 }
 
 function Start-NodeService([string]$Name, [string]$WorkDir, [string]$NodeArgs, [string]$StdOut, [string]$StdErr) {
+  # Cap the V8 heap per role (2026-10-15 memory diet): the AI worker kept a
+  # 112 MB working set; forcing tighter GC keeps the whole stack ~150 MB.
+  $heapMB = switch ($Name) { 'worker' { 160 } 'api' { 128 } default { 96 } }
+  $NodeArgs = "--max-old-space-size=$heapMB $NodeArgs"
   $p = Start-Process -FilePath $script:NodeExe -ArgumentList $NodeArgs `
         -WorkingDirectory $WorkDir -WindowStyle Hidden `
         -RedirectStandardOutput $StdOut -RedirectStandardError $StdErr -PassThru
