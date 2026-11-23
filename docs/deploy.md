@@ -1,5 +1,7 @@
 # 部署
 
+本站静态阅读的本地候选、完整构建与浏览器结果见[静态阅读构建](static-reading.md)。四站只使用AIHOT的一份[静态周期生成入口](../../AIHOT/docs/static-cycle.md)，手机接入条件见[切换说明](../../AIHOT/docs/static-cycle-phone-handoff.md)。2026-11-10的结果来自隔离历史备份，不是手机最新数据；生产认证、发布和真实调度仍未执行。下述动态部署方式不代表当前手机入口。
+
 ## 用 Docker（推荐）
 
 需要一台装了 Docker（带 Compose）的机器。云服务器建议至少 2 核、4 GB 内存，构建镜像时要用到。
